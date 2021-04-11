@@ -11,10 +11,14 @@ struct UserConnection {
 };
 
 int main() {
+    unsigned long latest_user_id = 10;
     // "ws://127.0.0.1/"
     uWS::App().ws<UserConnection>("/*", {
-            .open = [](auto *ws) {
+            .open = [&](auto *ws) {
                 // Call on connection
+                UserConnection *data = ws->getUserData();
+                data->user_id = latest_user_id++;
+
 
             },
             .message = [](auto *ws, string_view message, uWS::OpCode opCode) {
