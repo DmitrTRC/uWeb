@@ -16,10 +16,10 @@ int main() {
     unsigned long latest_user_id = 10;
     // "ws://127.0.0.1/"
     vector<thread *> threads(thread::hardware_concurrency());
-    transform(threads.begin(), threads.end(),threads.begin(),[](auto *thr){
-        return new thread([](){
+    transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
+        return new thread([&]() {
             uWS::App().ws<UserConnection>("/*", {
-                    .open = [&](auto *ws) {
+                    .open = [&] (auto *ws)mutable {
                         // Call on connection
                         UserConnection *data = ws->getUserData();
                         data->user_id = latest_user_id++;
