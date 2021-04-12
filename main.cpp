@@ -23,13 +23,17 @@ int main() {
                         // Call on connection
                         UserConnection *data = ws->getUserData();
                         data->user_id = latest_user_id++;
-
-
                     },
                     .message = [](auto *ws, string_view message, uWS::OpCode opCode) {
                         // Call on message
                     }
-            });
+            }).listen(9999, [](auto *token) {
+                if (token) {
+                    cout << "Server started and listening on port 9999";
+                } else {
+                    cout << "Server failed to start :(";
+                }
+            }).run();
         });
 
     });
