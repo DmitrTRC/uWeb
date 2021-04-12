@@ -2,6 +2,9 @@
 #include <uwebsockets/App.h>
 #include <thread>
 #include <algorithm>
+#include <vector>
+#include <string_view>
+
 
 using namespace std;
 
@@ -19,7 +22,7 @@ int main() {
     transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
         return new thread([&]() {
             uWS::App().ws<UserConnection>("/*", {
-                    .open = [&](auto *ws)mutable {
+                    .open = [&](auto *ws) {
                         // Call on connection
                         UserConnection *data = ws->getUserData();
                         data->user_id = latest_user_id++;
