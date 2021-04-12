@@ -13,7 +13,7 @@ struct UserConnection {
 };
 
 int main() {
-    unsigned long latest_user_id = 10;
+    atomic_ulong latest_user_id = 10;
     // "ws://127.0.0.1/"
     vector<thread *> threads(thread::hardware_concurrency());
     transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
@@ -29,9 +29,9 @@ int main() {
                     }
             }).listen(9999, [](auto *token) {
                 if (token) {
-                    cout << "Server started and listening on port 9999";
+                    cout << "Server started and listening on port 9999" << endl;
                 } else {
-                    cout << "Server failed to start :(";
+                    cout << "Server failed to start :(" << endl;
                 }
             }).run();
         });
