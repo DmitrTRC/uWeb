@@ -19,7 +19,7 @@ int main() {
     transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
         return new thread([&]() {
             uWS::App().ws<UserConnection>("/*", {
-                    .open = [&] (auto *ws)mutable {
+                    .open = [&](auto *ws)mutable {
                         // Call on connection
                         UserConnection *data = ws->getUserData();
                         data->user_id = latest_user_id++;
@@ -33,5 +33,6 @@ int main() {
         });
 
     });
+    for_each(threads.begin(), threads.end(), [](auto *thr) { thr->join(); });
 
 }
