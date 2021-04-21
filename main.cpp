@@ -16,6 +16,11 @@ int main() {
 
     vector<thread *> threads(thread::hardware_concurrency());
 
+//Client -> Server
+//SET_NAME=<NAME> Setup User name
+//MESSAGE_TO id,message
+
+//Server -> Client
 
     transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
         return new thread([&]() {
