@@ -25,6 +25,7 @@ int main() {
                         UserConnection *data = ws->getUserData();
                         data->user_id = latest_user_id++;
                         cout << "New User connected with ID : " << data->user_id << endl;
+                        ws->subscribe("broadcast");
                     },
                     .message = [](auto *ws, string_view message, uWS::OpCode opCode) {
                         UserConnection *data = ws->getUserData();
@@ -35,6 +36,8 @@ int main() {
                             data->user_name = new string ( message.substr(9));
                             cout << "User with ID : " << data->user_id <<" set name to : " << (*data->user_name);
                             cout << endl;
+                            string broadcast_message = "NEW_USER : " + (*data->user_name) + to_string(data->user_id);
+                            ws->publish("broadcast", broadcast_message, opCode, true);
                         }
                         // Call on message
                     }
