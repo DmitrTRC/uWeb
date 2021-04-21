@@ -13,6 +13,7 @@ struct UserConnection {
 int main() {
     atomic_ulong latest_user_id = 10;
     // "ws://127.0.0.1/"
+
     vector<thread *> threads(thread::hardware_concurrency());
 
 
@@ -23,8 +24,18 @@ int main() {
                         // Call on connection
                         UserConnection *data = ws->getUserData();
                         data->user_id = latest_user_id++;
+                        cout << "New User connected with ID : " << data->user_id << endl;
                     },
                     .message = [](auto *ws, string_view message, uWS::OpCode opCode) {
+                        UserConnection *data = ws->getUserData();
+                        cout << "New message from User ID : " << data->user_id << endl;
+                        cout << "Message : " << message << endl;
+                        auto beginning = message.substr(0, 9);
+                        if ( beginning.compare("SET_NAME=") == 0){
+                            data->user_name = new string ( message.substr(9));
+                            cout << "User with ID : " << data->user_id <<" set name to : " << (*data->user_name);
+                            cout << endl;
+                        }
                         // Call on message
                     }
             }).listen(9999, [](auto *token) {
