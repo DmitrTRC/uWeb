@@ -10,11 +10,9 @@ add_link_options(-lpthread)
 set(CMAKE_CXX_STANDARD 20)
 
 
-
 add_link_options(${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-osx/lib/libuSockets.a)
 add_link_options(${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-osx/lib/liblibuv.a)
 add_link_options(${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-osx/lib/libz.a)
-
 
 
 find_path(UWEBSOCKETS_INCLUDE_DIRS "uwebsockets/App.h")
