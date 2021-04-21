@@ -6,9 +6,9 @@ using namespace std;
 struct UserConnection {
     unsigned long user_id;
     string *user_name;
-
-
 };
+
+const unsigned int WS_PORT = 9999;
 
 int main() {
     atomic_ulong latest_user_id = 10;
@@ -16,6 +16,11 @@ int main() {
 
     vector<thread *> threads(thread::hardware_concurrency());
 
+//Client -> Server
+//SET_NAME=<NAME> Setup User name
+//MESSAGE_TO id,message
+
+//Server -> Client
 
     transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
         return new thread([&]() {
@@ -41,7 +46,7 @@ int main() {
                         }
                         // Call on message
                     }
-            }).listen(9999, [](auto *token) {
+            }).listen(WS_PORT, [](auto *token) {
                 if (token) {
                     cout << "Server started and listening on port 9999" << endl;
                 } else {
