@@ -44,6 +44,18 @@ int main() {
                             cout << endl;
                             string broadcast_message = "NEW_USER : " + (*data->user_name) + to_string(data->user_id);
                             ws->publish("broadcast", string_view (broadcast_message), opCode, false); // Not sure
+
+                            auto is_message_to = message.substr(0, 11);
+                            if(is_message_to.compare("MESSAGE_TO") == 0){
+                                // Someone send message
+                                auto rest_string = message.substr(11);
+                                int position = rest_string.find(",");
+                                if ( position != string::npos){
+                                    auto id_string = rest_string.substr(0, position);
+                                    auto user_message = rest_string.substr(position+1);
+                                    ws->publish("user#" + string(id_string), user_message, opCode, false);
+                                }
+                            }
                         }
                         // Call on message
                     }
