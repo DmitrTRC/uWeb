@@ -21,6 +21,7 @@ int main() {
 //MESSAGE_TO id,message
 
 //Server -> Client
+//NewUser name, id
 
     transform(threads.begin(), threads.end(), threads.begin(), [&](auto *thr) {
         return new thread([&]() {
@@ -42,7 +43,7 @@ int main() {
                             cout << "User with ID : " << data->user_id <<" set name to : " << (*data->user_name);
                             cout << endl;
                             string broadcast_message = "NEW_USER : " + (*data->user_name) + to_string(data->user_id);
-                            ws->publish("broadcast", broadcast_message, opCode, true);
+                            ws->publish("broadcast", string_view (broadcast_message), opCode, false); // Not sure
                         }
                         // Call on message
                     }
